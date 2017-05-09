@@ -23,7 +23,7 @@ func Start(port int, debugMode bool) {
 	r.POST("_db/:db/_api/document/:collection",handlers.NewDocument)
 	r.POST("_db/:db/_api/cursor", handlers.Query)
 	r.DELETE("_db/:db/_api/document/:collection/:key", handlers.DeleteDocument)
-	// Error pages
+
 	r.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": true,
@@ -32,8 +32,5 @@ func Start(port int, debugMode bool) {
 			"code": 404,
 		})
 	})
-
-	if err := r.Run(fmt.Sprintf(":%d", port)); err != nil {
-		log.WithError(err).Fatal("server failed to start")
-	}
+	go r.Run(fmt.Sprintf(":%d", port))
 }

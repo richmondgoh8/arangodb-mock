@@ -13,7 +13,7 @@ const (
 type colInfo struct {
 	JournalSize       uint        `json:"journalSize"`
 	ReplicationFactor uint 	      `json:"replicationFactor"`
-	KeyOptions        *KeyOptions `json:"keyOptions"`
+	KeyOptions        *keyOptions `json:"keyOptions"`
 	Name              string      `json:"name"               binding:"required"`
 	WaitForSync       bool        `json:"waitForSync"`
 	DoCompact         bool	      `json:"doCompact"`
@@ -23,7 +23,7 @@ type colInfo struct {
 	IndexBuckets      uint        `json:"indexBuckets"`
 }
 
-type KeyOptions struct {
+type keyOptions struct {
 	AllowUserKeys bool    `json:"allowUserKeys"`
 	Type          string  `json:"type"`
 	Increment     int     `json:"increment"`

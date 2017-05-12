@@ -36,6 +36,7 @@ func Auth(c *gin.Context) {
 		})
 		return
 	}
+
 	c.JSON(200, gin.H{
 		"jwt": jwt.GetJWT(),
 		"mustChangePass": false,

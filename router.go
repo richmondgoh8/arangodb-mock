@@ -6,6 +6,7 @@ import (
 	"github.com/apex/log"
 	"github.com/thedanielforum/arangodb-mock/handlers"
 	"net/http"
+	"github.com/thedanielforum/arangodb-mock/redirects"
 )
 
 func Start(port int, debugMode bool) {
@@ -33,4 +34,8 @@ func Start(port int, debugMode bool) {
 		})
 	})
 	go r.Run(fmt.Sprintf(":%d", port))
+}
+
+func Mount(global string) {
+	redirects.SetConfigPath(global)
 }

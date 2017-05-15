@@ -11,3 +11,7 @@ func SetConfigPath(basic string) {
 func GetConfigPath() string {
 	return globalPath
 }
+
+func UnMount() {
+	globalPath = ""
+}

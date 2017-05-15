@@ -4,7 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/thedanielforum/arangodb-mock/jwt"
 	"io/ioutil"
-	"fmt"
 	"encoding/json"
 	"github.com/thedanielforum/arangodb-mock/redirects"
 	"github.com/apex/log"
@@ -53,15 +52,16 @@ func Query(c *gin.Context) {
 		})
 		return
 	}
-
 	raw, err := ioutil.ReadFile(redirects.GetConfigPath())
 	if err != nil {
-		panic(err)
+		log.WithError(err).Error(".json file path is invalid or does not exist")
+		return
 	}
 
 	var jsonMap map[string]*json.RawMessage
 	if err := json.Unmarshal(raw, &jsonMap); err !=nil{
-		fmt.Println("error unmarshalleing")
+		log.WithError(err).Error("Error Unmarshaling")
+		return
 	}
 
 
@@ -70,7 +70,8 @@ func Query(c *gin.Context) {
 		var anon interface{}
 		err = json.Unmarshal(*jsonMap[value], &anon)
 		if err != nil {
-			fmt.Println("error unmarshalleing")
+			log.WithError(err).Error("Error Unmarshaling")
+			return
 		}
 		mapResult[value] = anon
 	}
@@ -97,4 +98,6 @@ func Query(c *gin.Context) {
 		"error": false,
 		"code": 201,
 	})
+	redirects.UnMount()
+	return
 }
